@@ -19,6 +19,15 @@
       </div>
     </header>
 
+    <!-- 微信内置浏览器提示 -->
+    <div class="wechat-tip" id="wechatTip" style="display:none">
+      <div class="wechat-tip-icon">⚠️</div>
+      <div class="wechat-tip-content">
+        <div class="wechat-tip-title">请在浏览器中打开</div>
+        <div class="wechat-tip-desc">微信内置浏览器限制了相册访问，请点击右上角 <strong>「···」</strong> → <strong>「在浏览器中打开」</strong>，即可正常使用</div>
+      </div>
+    </div>
+
     <!-- 主体内容 -->
     <main class="main">
       <!-- Step 1: 上传区域 -->
@@ -64,9 +73,10 @@
         <!-- 上传区 -->
         <div class="upload-area" id="uploadArea">
           <input type="file" id="fileInput" accept="image/*" multiple hidden>
-          <div class="upload-placeholder" id="uploadPlaceholder" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInputCamera" accept="image/*" capture="environment" hidden>
+          <div class="upload-placeholder" id="uploadPlaceholder">
             <div class="upload-icon">📷</div>
-            <p class="upload-text">点击拍照或选择图片</p>
+            <label for="fileInput" class="upload-text upload-label">点击选择图片或拍照</label>
             <p class="upload-hint">支持 JPG、PNG、HEIC 等格式，可多选</p>
           </div>
           <!-- 预览区 -->
@@ -74,9 +84,12 @@
         </div>
 
         <div class="upload-actions">
-          <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">
-            📎 选择图片
-          </button>
+          <label for="fileInput" class="btn btn-outline" style="cursor:pointer">
+            🖼️ 从相册选择
+          </label>
+          <label for="fileInputCamera" class="btn btn-outline" style="cursor:pointer">
+            📷 拍照
+          </label>
           <button class="btn btn-primary" id="recognizeBtn" onclick="startRecognize()" disabled>
             🤖 开始AI识别
           </button>
