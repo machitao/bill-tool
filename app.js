@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadApiConfig();
   setupDragDrop();
   setupFileInput();
+  setupCameraInput();
   createToastContainer();
+  detectWechat();
 });
 
 // ===================== Toast 提示 =====================
@@ -74,8 +76,28 @@ function setupFileInput() {
   input.addEventListener('change', (e) => {
     const files = Array.from(e.target.files);
     addFiles(files);
-    input.value = ''; // 允许重复选择同一文件
+    input.value = '';
   });
+}
+
+function setupCameraInput() {
+  const input = document.getElementById('fileInputCamera');
+  if (!input) return;
+  input.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    addFiles(files);
+    input.value = '';
+  });
+}
+
+// 检测微信内置浏览器并显示提示
+function detectWechat() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isWechat = /micromessenger/i.test(ua);
+  if (isWechat) {
+    const tip = document.getElementById('wechatTip');
+    if (tip) tip.style.display = 'flex';
+  }
 }
 
 function setupDragDrop() {
