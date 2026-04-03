@@ -509,6 +509,53 @@ body {
   justify-content: center;
 }
 
+/* ===================== 微信提示横幅 ===================== */
+.wechat-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.wechat-tip-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wechat-tip-content {}
+
+.wechat-tip-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #d46b08;
+  margin-bottom: 4px;
+}
+
+.wechat-tip-desc {
+  font-size: 13px;
+  color: #874d00;
+  line-height: 1.6;
+}
+
+.wechat-tip-desc strong {
+  color: #d46b08;
+}
+
+.upload-label {
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray-700);
+  margin-bottom: 6px;
+  text-decoration: none;
+}
+
 /* ===================== Footer ===================== */
 .footer {
   text-align: center;
