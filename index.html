@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>账单梳理助手</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- 顶部标题栏 -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">📋</span>
+          <span class="logo-text">账单梳理助手</span>
+        </div>
+        <p class="header-desc">上传账单图片，AI自动识别整理成表格</p>
+      </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="main">
+      <!-- Step 1: 上传区域 -->
+      <section class="upload-section card" id="uploadSection">
+        <h2 class="section-title">
+          <span class="step-badge">1</span>
+          上传账单图片
+        </h2>
+        
+        <!-- API Key 配置 -->
+        <div class="api-config" id="apiConfig">
+          <div class="api-config-header" onclick="toggleApiConfig()">
+            <span>⚙️ AI识别配置</span>
+            <span class="toggle-icon" id="toggleIcon">▼</span>
+          </div>
+          <div class="api-config-body" id="apiConfigBody">
+            <div class="form-group">
+              <label>API Base URL</label>
+              <input type="text" id="apiBaseUrl" placeholder="https://api.openai.com/v1" value="https://api.openai.com/v1">
+            </div>
+            <div class="form-group">
+              <label>API Key</label>
+              <input type="password" id="apiKey" placeholder="sk-...">
+            </div>
+            <div class="form-group">
+              <label>模型</label>
+              <input type="text" id="apiModel" placeholder="gpt-4o" value="gpt-4o">
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="saveApiConfig()">💾 保存配置</button>
+            <span class="save-hint" id="saveHint"></span>
+          </div>
+        </div>
+
+        <!-- 上传区 -->
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="fileInput" accept="image/*" multiple capture="environment" hidden>
+          <div class="upload-placeholder" id="uploadPlaceholder" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📷</div>
+            <p class="upload-text">点击拍照或选择图片</p>
+            <p class="upload-hint">支持 JPG、PNG、HEIC 等格式，可多选</p>
+          </div>
+          <!-- 预览区 -->
+          <div class="preview-grid" id="previewGrid" style="display:none"></div>
+        </div>
+
+        <div class="upload-actions">
+          <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">
+            📎 选择图片
+          </button>
+          <button class="btn btn-primary" id="recognizeBtn" onclick="startRecognize()" disabled>
+            🤖 开始AI识别
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: 识别中 -->
+      <section class="loading-section card" id="loadingSection" style="display:none">
+        <div class="loading-content">
+          <div class="spinner"></div>
+          <p class="loading-text" id="loadingText">正在识别账单...</p>
+          <p class="loading-sub">AI正在分析图片中的账单信息，请稍候</p>
+        </div>
+      </section>
+
+      <!-- Step 3: 表格区域 -->
+      <section class="table-section card" id="tableSection" style="display:none">
+        <div class="table-header">
+          <h2 class="section-title">
+            <span class="step-badge">2</span>
+            账单明细
+          </h2>
+          <div class="table-actions">
+            <button class="btn btn-sm btn-outline" onclick="addRow()">➕ 添加行</button>
+            <button class="btn btn-sm btn-outline" onclick="exportCSV()">📥 导出CSV</button>
+            <button class="btn btn-sm btn-outline" onclick="exportExcel()">📊 导出Excel</button>
+            <button class="btn btn-sm btn-danger" onclick="clearAll()">🗑️ 清空</button>
+          </div>
+        </div>
+
+        <!-- 汇总信息 -->
+        <div class="summary-bar" id="summaryBar">
+          <div class="summary-item">
+            <span class="summary-label">总条数</span>
+            <span class="summary-value" id="totalCount">0</span>
+          </div>
+          <div class="summary-item income">
+            <span class="summary-label">总收入</span>
+            <span class="summary-value" id="totalIncome">¥0.00</span>
+          </div>
+          <div class="summary-item expense">
+            <span class="summary-label">总支出</span>
+            <span class="summary-value" id="totalExpense">¥0.00</span>
+          </div>
+          <div class="summary-item net">
+            <span class="summary-label">净额</span>
+            <span class="summary-value" id="netAmount">¥0.00</span>
+          </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="table-wrapper">
+          <table class="bill-table" id="billTable">
+            <thead>
+              <tr>
+                <th width="40">#</th>
+                <th>日期</th>
+                <th>摘要/说明</th>
+                <th>类别</th>
+                <th>收入(元)</th>
+                <th>支出(元)</th>
+                <th>备注</th>
+                <th width="60">操作</th>
+              </tr>
+            </thead>
+            <tbody id="billTableBody">
+              <!-- 数据行 -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 原始识别文本 -->
+        <div class="raw-result">
+          <div class="raw-result-header" onclick="toggleRaw()">
+            <span>📄 AI原始识别内容</span>
+            <span class="toggle-icon" id="rawToggleIcon">▶</span>
+          </div>
+          <div class="raw-result-body" id="rawResultBody" style="display:none">
+            <pre id="rawText"></pre>
+          </div>
+        </div>
+
+        <div class="continue-actions">
+          <button class="btn btn-outline" onclick="resetUpload()">🔄 继续上传新图片</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>账单梳理助手 · 数据仅在本地处理，不会上传至服务器</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
