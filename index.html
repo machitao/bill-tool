@@ -37,21 +37,21 @@
           <div class="api-config-body" id="apiConfigBody">
             <div class="form-group">
               <label>API Base URL</label>
-              <input type="text" id="apiBaseUrl" placeholder="https://api.openai.com/v1" value="https://api.openai.com/v1">
+              <input type="text" id="apiBaseUrl" placeholder="https://api.moonshot.cn/v1" value="https://api.moonshot.cn/v1">
             </div>
             <div class="form-group">
               <label>API Key</label>
-              <input type="password" id="apiKey" placeholder="sk-...">
+              <input type="password" id="apiKey" placeholder="sk-..." value="sk-QSYgVuJvbNGpONXB2DVbWvCuMG6HoARfqvvfmaY4UabTweJp">
             </div>
             <div class="form-group">
               <label>模型</label>
               <select id="apiModel">
-                <option value="gpt-4o">GPT-4o（推荐）</option>
-                <option value="gpt-4o-mini">GPT-4o mini（更快更省）</option>
-                <option value="gpt-4-turbo">GPT-4 Turbo</option>
-                <option value="gpt-4-vision-preview">GPT-4 Vision</option>
+                <option value="moonshot-v1-8k" selected>Kimi moonshot-v1-8k（推荐）</option>
+                <option value="moonshot-v1-32k">Kimi moonshot-v1-32k（长文本）</option>
+                <option value="moonshot-v1-128k">Kimi moonshot-v1-128k（超长文本）</option>
+                <option value="gpt-4o">GPT-4o</option>
+                <option value="gpt-4o-mini">GPT-4o mini</option>
                 <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
-                <option value="claude-3-opus-20240229">Claude 3 Opus</option>
                 <option value="glm-4v">GLM-4V（智谱）</option>
                 <option value="qwen-vl-max">Qwen-VL-Max（通义）</option>
               </select>
