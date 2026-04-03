@@ -45,7 +45,16 @@
             </div>
             <div class="form-group">
               <label>模型</label>
-              <input type="text" id="apiModel" placeholder="gpt-4o" value="gpt-4o">
+              <select id="apiModel">
+                <option value="gpt-4o">GPT-4o（推荐）</option>
+                <option value="gpt-4o-mini">GPT-4o mini（更快更省）</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="gpt-4-vision-preview">GPT-4 Vision</option>
+                <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                <option value="glm-4v">GLM-4V（智谱）</option>
+                <option value="qwen-vl-max">Qwen-VL-Max（通义）</option>
+              </select>
             </div>
             <button class="btn btn-sm btn-outline" onclick="saveApiConfig()">💾 保存配置</button>
             <span class="save-hint" id="saveHint"></span>
