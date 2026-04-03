@@ -62,9 +62,9 @@ function loadApiConfig() {
 
 function getApiConfig() {
   return {
-    baseUrl: document.getElementById('apiBaseUrl').value.replace(/\/$/, '') || 'https://api.openai.com/v1',
+    baseUrl: document.getElementById('apiBaseUrl').value.replace(/\/$/, '') || 'https://api.moonshot.cn/v1',
     apiKey: document.getElementById('apiKey').value,
-    model: document.getElementById('apiModel').value || 'gpt-4o',
+    model: document.getElementById('apiModel').value || 'moonshot-v1-8k',
   };
 }
 
